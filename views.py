@@ -23,3 +23,23 @@ async def get_horo(request: web.Request) -> web.Response:
 
 async def ping(request: web.Request) -> web.Response:
     return web.json_response({'success': True, 'message': 'pong'})
+
+
+async def main(request: web.Request) -> web.Response:
+    urls = [
+        'ping/'
+        'mail-horoscope/'
+    ]
+    data = {
+        'ping/': {'Methods': ['GET'], 'description': 'ping server'},
+        'mail-horoscope/': {'Methods': ['GET'], 'description': 'parse data from horo.mail.ru',
+                            'query_params': {
+                                'timeline': HoroMail.TIMELINES,
+                                'sign': list(HoroMail.SIGN_ALIASES.values())
+                            },
+                            'example':
+                                f'https://test-horoscope-api.herokuapp.com/mail-horoscope?sign=aries&timeline'
+                                '=today'
+                            }
+    }
+    return web.json_response({'success': True, 'scheme': data})
